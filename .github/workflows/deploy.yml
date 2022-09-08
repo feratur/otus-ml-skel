@@ -13,6 +13,11 @@ jobs:
     - run: docker login --username oauth --password "$TOKEN" cr.yandex
       env:
         TOKEN: ${{ secrets.YC_TOKEN }}
+    - uses: azure/k8s-set-context@v2
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBECONFIG }}
+    - run: kubectl get pods -A
     - name: Checkout repo
       uses: actions/checkout@v3
     - name: Install YC CLI
