@@ -23,7 +23,9 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - run: echo "${{ secrets.YC_TOKEN }}"
+    - uses: azure/setup-kubectl@v3
+    - run: /home/runner/yandex-cloud/bin/yc managed-kubernetes cluster get-credentials ycluster --external
+    - run: kubectl config view
     - name: YC init
       run: /home/runner/yandex-cloud/bin/yc init --token="$TOKEN" --folder-name="default"
       env:
