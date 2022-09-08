@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - run: docker login --username iam --password "$TOKEN" cr.yandex
+    - run: docker login --username oauth --password "$TOKEN" cr.yandex
       env:
         TOKEN: ${{ secrets.YC_TOKEN }}
     - name: Checkout repo
