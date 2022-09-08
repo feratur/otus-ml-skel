@@ -6,22 +6,23 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  train:
+  cicd:
     runs-on: ubuntu-latest
 
     steps:
     - run: docker login --username oauth --password "$TOKEN" cr.yandex
       env:
         TOKEN: ${{ secrets.YC_TOKEN }}
-    - uses: azure/k8s-set-context@v2
-      with:
-        method: kubeconfig
-        kubeconfig: ${{ secrets.KUBECONFIG }}
-    - run: kubectl get pods -A
-    - name: Checkout repo
-      uses: actions/checkout@v3
     - name: Install YC CLI
       run: curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
+    - run: /home/runner/yandex-cloud/bin/yc config profile create default --token="$TOKEN" --cloud-id="$CLOUD" --folder-id="FOLDER"
+      env:
+        TOKEN: ${{ secrets.YC_TOKEN }}
+        CLOUD: b1g2ipnfposk8t1uikge
+        FOLDER: b1gmmqv24bguhhmcd0qa
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
     - run: echo "${{ secrets.YC_TOKEN }}"
     - name: YC init
       run: /home/runner/yandex-cloud/bin/yc init --token="$TOKEN" --folder-name="default"
