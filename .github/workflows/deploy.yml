@@ -15,7 +15,7 @@ jobs:
     - name: Install YC CLI
       run: curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
     - name: YC init
-      run: yc init --token ${{ secrets.YC_TOKEN }} --folder-name default
+      run: /home/runner/yandex-cloud/bin/yc init --token ${{ secrets.YC_TOKEN }} --folder-name default
     - name: Read repo name
       run: echo "REPO_NAME=`echo "$GITHUB_REPOSITORY" | cut -d "/" -f 2`" >> $GITHUB_ENV
     - name: Docker build
